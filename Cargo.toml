@@ -2,6 +2,8 @@
 name = "dbusify_hyper"
 version = "0.1.0"
 authors = ["Andrzej Ressel <jereksel@gmail.com>"]
+description = "Rspotify login using hyper.rs http server"
+license = "MIT"
 
 [dependencies]
 rspotify = "0.2.4"
