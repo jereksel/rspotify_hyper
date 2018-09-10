@@ -1,0 +1,10 @@
+[package]
+name = "dbusify_hyper"
+version = "0.1.0"
+authors = ["Andrzej Ressel <jereksel@gmail.com>"]
+
+[dependencies]
+rspotify = "0.2.4"
+hyper = "0.12"
+futures = "0.1.21"
+webbrowser = "0.2.2"
