@@ -18,13 +18,11 @@ pub fn get_token_hyper(spotify_oauth: &mut SpotifyOAuth) -> Option<TokenInfo> {
             let state = generate_random_string(16);
             let auth_url = spotify_oauth.get_authorize_url(Some(&state), None);
 
-            let (_tx_stop, rx_stop) = futures::sync::oneshot::channel::<()>();
+            let (_, rx_stop) = futures::sync::oneshot::channel::<()>();
 
             let spotify_oauth = spotify_oauth.clone();
-            let _spotify_oauth_2 = spotify_oauth.clone();
 
             thread::spawn(move || {
-                let spotify_oauth = spotify_oauth.clone();
                 let tx = tx.clone();
 
                 webbrowser::open(&auth_url).unwrap();
@@ -37,11 +35,9 @@ pub fn get_token_hyper(spotify_oauth: &mut SpotifyOAuth) -> Option<TokenInfo> {
 
                     service_fn_ok(move |req| {
                         let tx = tx.clone();
-                        let spotify_oauth = spotify_oauth.clone();
 
                         let mut uri = req.uri().to_string();
-                        let path = req.uri().path().to_string();
-                        let _query = req.uri().query().unwrap_or("No query").to_string();
+                        let path = req.uri().path();
 
                         let token = spotify_oauth
                             .parse_response_code(&mut uri)
@@ -53,7 +49,7 @@ pub fn get_token_hyper(spotify_oauth: &mut SpotifyOAuth) -> Option<TokenInfo> {
                         let resp = match token {
                             Some(token) => {
                                 if path == "/callback" {
-                                    tx.send(token.clone()).unwrap();
+                                    tx.send(token).unwrap();
                                     success
                                 } else {
                                     failure
