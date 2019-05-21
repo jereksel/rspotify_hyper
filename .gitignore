@@ -4,3 +4,5 @@ Cargo.lock
 .idea/
 .vscode/
 *.iml
+.env
+.spotify_token_cache.json
