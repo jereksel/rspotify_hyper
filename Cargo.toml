@@ -7,7 +7,7 @@ description = "Rspotify login using hyper.rs http server"
 license = "MIT"
 
 [dependencies]
-rspotify = "0.2.4"
-hyper = "0.12"
-futures = "0.1.21"
-webbrowser = "0.2.2"
+rspotify = "0.4.0"
+hyper = "0.12.29"
+futures = "0.1.27"
+webbrowser = "0.5.1"
