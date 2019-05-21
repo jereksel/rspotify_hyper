@@ -17,11 +17,9 @@ pub fn get_token_hyper(spotify_oauth: &mut SpotifyOAuth) -> Option<TokenInfo> {
 
             let state = generate_random_string(16);
             let auth_url = spotify_oauth.get_authorize_url(Some(&state), None);
-
-            let (_, rx_stop) = futures::sync::oneshot::channel::<()>();
+            let (_tx_stop, rx_stop) = futures::sync::oneshot::channel::<()>();
 
             let spotify_oauth = spotify_oauth.clone();
-
             thread::spawn(move || {
                 let tx = tx.clone();
 
